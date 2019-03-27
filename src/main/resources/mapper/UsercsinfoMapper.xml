@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitauto.ep.fx.webapi.dao.UsercsinfoMapper">
+  <resultMap id="BaseResultMap" type="com.bitauto.ep.fx.webapi.model.Usercsinfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" jdbcType="BIGINT" property="id" />
+    <result column="UserId" jdbcType="BIGINT" property="userid" />
+    <result column="CsId" jdbcType="INTEGER" property="csid" />
+    <result column="IsActive" jdbcType="INTEGER" property="isactive" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+</mapper>

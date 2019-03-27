@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitauto.ep.fx.webapi.dao.SysUserMapper">
+
+
+  <resultMap id="BaseResultMap" type="com.bitauto.ep.fx.webapi.model.SysUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="NVARCHAR" property="userName" />
+    <association property="sysRole"  javaType="com.bitauto.ep.fx.webapi.model.SysRole" >
+      <id column="sid" jdbcType="INTEGER" property="id" />
+      <result column="role_name" jdbcType="NVARCHAR" property="roleName" />
+    </association>
+  </resultMap>
+
+  <select id="queryUserOrRole" resultMap="BaseResultMap">
+    select s1.*,s2.id sid,s2.role_name,s2.create_time ctime,s2.update_time utime,s2.delete_status dsta from sys_user s1 LEFT JOIN sys_role s2 on s1.role_id=s2.id
+  </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>123</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p value="312">123</p>
+    <!--/*@thymesVar id="userInfo" type="com.bitauto.ep.fx.webapi.model.*"*/-->
+    <!--一个实体-->
+    <!--<input th:value="${userInfo.id}" />
+    <input th:value="${userInfo.userName}" />
+    <div th:object="${userInfo}">
+        <p>Nationality: <span th:text="*{userName}">Saturn</span>.</p>
+    </div>-->
+    <!--集合-->
+    <th:block th:unless="${null == users}">
+        <th:block th:each="usr,userStat:${users}">
+            <option th:value="${usr.userName}" th:text="${usr.userName}" >213123</option>
+            <option  th:text="${userStat.index}" >321</option>
+            <option  th:text="${userStat.odd}" >321</option>
+        </th:block>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+<input type="button" id="sao" value="上传图片"/>
+<input type="button" id="local" value="地理位置"/>
+<input type="image" src="" id="imagel">
+<input id="appId"  type="hidden" th:value="${jsapiSignature.appId }"/>
+<input id="url"  type="hidden" th:value="${jsapiSignature.url}"/>
+<!--<input id="tk"  type="hidden" value="${jsapiSignature.jsapi_ticket }"/>-->
+<input id="nonceStr" type="hidden" th:value="${jsapiSignature.nonceStr }"/>
+<input id="timestamp" type="hidden" th:value="${jsapiSignature.timestamp }"/>
+<input id="signature" type="hidden" th:value="${jsapiSignature.signature }"/>
+<h3 id="menu-scan">微信扫一扫</h3>
+<span class="desc">调起微信扫一扫接口</span>
+<button class="btn btn_primary" id="scanQRCode0">scanQRCode(微信处理结果)</button>
+<button class="btn btn_primary" id="scanQRCode1">scanQRCode(直接返回结果)</button>
+<input type="text" id="saoma" value="扫码回调">
+<h3>分享</h3>
+<button id="share" >分享朋友圈</button>
+<button id="shareqq" >分享QQ</button>
+</body>
+<script type="text/javascript">
+    $(function(){
+            var appId=$("#appId").val();
+            var nonceStr=$("#nonceStr").val();
+            var timestamp=$("#timestamp").val();
+            var signature=$("#signature").val();
+            wx.config({
+                debug: false,
+                appId: appId,
+                timestamp: timestamp,
+                nonceStr: nonceStr,
+                signature: signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'openLocation',
+                    'scanQRCode',
+                    'onMenuShareQQ',
+                    'onMenuShareTimeline'
+                ]
+            });
+
+            //在这里写微信上传图片的接口
+            $("#sao").bind("click",function(){
+                wx.chooseImage({
+                    success: function (res) {
+                        $("#imagel").attr("src",res.localIds);
+                    }
+                });
+            });
+            $("#local").bind("click",function(){
+                wx.openLocation({
+                    latitude: 23.099994,
+                    longitude: 113.324520,
+                    name: '用户名字',
+                    address: '当前地址',
+                    scale: 14,
+                    infoUrl: 'http://weixin.qq.com'
+                });
+            });
+            document.querySelector('#scanQRCode0').onclick = function () {
+                wx.scanQRCode();
+            };
+            document.querySelector('#scanQRCode1').onclick = function () {
+                wx.scanQRCode({
+                    needResult: 1,
+                    desc: 'scanQRCode desc',
+                    success: function (res) {
+                        $("#saoma").val(JSON.stringify(res));
+                        console.log(JSON.stringify(res));
+                    }
+                });
+            };
+            $("#share").bind("click",function(){
+                /*分享到QQ*/
+                wx.onMenuShareQQ({
+                    title: '标题',
+                    desc: '描述',
+                    link: "http://test.qiye.yiche.com/jssdk/jsdemo",
+                    imgUrl: 'http://test.qiye.yiche.com/img/beibao.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        alert("已经分享qq");
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        alert("取消分享");
+                    }
+                });
+            });
+            $("#shareqq").bind("click",function(){
+                /*分享到朋友圈*/
+                wx.onMenuShareTimeline({
+                    title: '标题',
+                    desc: '描述',
+                    link: "http://test.qiye.yiche.com/jssdk/jsdemo",
+                    imgUrl: 'http://test.qiye.yiche.com/img/beibao.jpg', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        alert("已经分享朋友圈！！");
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        alert("取消分享");
+                    }
+                });
+            });
+
+        }
+    );
+    wx.ready(function () {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        // alert("1230k");
+    });
+
+    wx.error(function (res) {
+        alert("错误！ ");
+        alert(res.errMsg);
+    });
+
+</script>
+</html>
